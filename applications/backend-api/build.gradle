@@ -1,0 +1,14 @@
+plugins {
+    id 'stockdragon.java-conventions'
+    alias(libs.plugins.spring.boot)
+    alias(libs.plugins.spring.dependency.management)
+}
+
+dependencies {
+    implementation libs.spring.boot.starter.web
+
+    implementation project(':modules:auth')
+    implementation project(':modules:analysis-technical')
+    implementation project(':modules:analysis-fundamental')
+    implementation project(':modules:analysis-sentiment')
+}

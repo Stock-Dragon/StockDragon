@@ -1,0 +1,24 @@
+plugins {
+    id 'java'
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+def libs = extensions.getByType(VersionCatalogsExtension).named('libs')
+
+dependencies {
+    testImplementation(platform(libs.findLibrary('junit-bom').get()))
+    testImplementation(libs.findLibrary('junit-jupiter').get())
+}
+
+tasks.withType(Test) {
+    useJUnitPlatform()
+}

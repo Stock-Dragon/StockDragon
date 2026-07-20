@@ -1,0 +1,15 @@
+pluginManagement {
+    includeBuild('gradle/build-logic')
+}
+
+rootProject.name='StockDragon'
+
+['modules', 'applications'].each { category ->
+    file("$rootDir/$category").eachDir { dir ->
+        if (new File(dir, 'build.gradle').exists()) {
+            include "$category:${dir.name}"
+        }
+    }
+}
+
+includeBuild('libraries')
