@@ -1,4 +1,16 @@
+pluginManagement {
+    includeBuild('../gradle/build-logic')
+}
+
 rootProject.name = 'libraries'
+
+dependencyResolutionManagement {
+    versionCatalogs {
+        libs {
+            from(files('../gradle/libs.versions.toml'))
+        }
+    }
+}
 
 file(rootDir).eachDir {dir ->
     if (new File(dir, 'build.gradle').exists()) {

@@ -1,0 +1,8 @@
+plugins {
+    id 'stockdragon.java-conventions'
+}
+
+dependencies {
+    implementation 'com.stockdragon.libraries:example-lib'
+    implementation libs.spring.web
+}

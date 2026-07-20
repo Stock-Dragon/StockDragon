@@ -1,12 +1,15 @@
 [versions]
 springBoot = "4.1.0"
 springDependencyManagement = "1.1.7"
+springFramework = "7.0.8"
 junit = "5.11.0"
 
 [libraries]
 junit-bom = { module = "org.junit:junit-bom", version.ref = "junit" }
 junit-jupiter = { module = "org.junit.jupiter:junit-jupiter" }
 spring-boot-starter-web = { module = "org.springframework.boot:spring-boot-starter-web" }
+spring-context = { module = "org.springframework:spring-context", version.ref = "springFramework" }
+spring-web = { module = "org.springframework:spring-web", version.ref = "springFramework" }
 
 [plugins]
 spring-boot = { id = "org.springframework.boot", version.ref = "springBoot" }

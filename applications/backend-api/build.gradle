@@ -11,4 +11,5 @@ dependencies {
     implementation project(':modules:analysis-technical')
     implementation project(':modules:analysis-fundamental')
     implementation project(':modules:analysis-sentiment')
+    implementation project(':modules:example')
 }
