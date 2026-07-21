@@ -1,0 +1,21 @@
+services:
+  flyway:
+    image: flyway/flyway:12.11.0
+    container_name: stockdragon-flyway
+    command: >
+      -url=jdbc:postgresql://stockdragon-postgres:5432/stockdragon
+      -user=stockdragon
+      -password=stockdragon
+      -locations=filesystem:/flyway/sql/ddl,filesystem:/flyway/sql/dml
+      -cleanDisabled=false
+      migrate
+    volumes:
+      - ../../../../database/migrations/ddl:/flyway/sql/ddl:Z
+      - ../../../../database/migrations/dml:/flyway/sql/dml:Z
+    networks:
+      - stockdragon-net
+
+networks:
+  stockdragon-net:
+    name: stockdragon-net
+    external: true

@@ -6,3 +6,5 @@ allprojects {
         mavenCentral()
     }
 }
+
+apply from: "${rootDir}/gradle/scripts/generate-run-configs.gradle"

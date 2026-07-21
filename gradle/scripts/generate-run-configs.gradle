@@ -1,0 +1,69 @@
+def isWindows = org.gradle.internal.os.OperatingSystem.current().isWindows()
+def osFolder = isWindows ? 'windows' : 'linux'
+def scriptExt = isWindows ? '.ps1' : '.sh'
+def interpreterPath = isWindows ? 'powershell.exe' : '/bin/bash'
+def interpreterOptions = isWindows ? '-ExecutionPolicy Bypass -File' : ''
+
+def configs = [
+        'Database - Start DB'            : 'start-db',
+        'Database - Start And Patch DB'  : 'start-and-patch-db',
+        'Database - Reset DB'            : 'reset-db',
+        'Database - Delete DB'           : 'delete-db',
+]
+
+tasks.register('generateDbRunConfigurations') {
+    doLast {
+        def runDir = file("${rootDir}/.idea/runConfigurations")
+        runDir.mkdirs()
+
+        configs.each { displayName, scriptBaseName ->
+            def safeFileName = displayName.replaceAll(/[^A-Za-z0-9]/, '_')
+            def scriptPath = "\$PROJECT_DIR\$/tools/local/scripts/${osFolder}/${scriptBaseName}${scriptExt}"
+
+            def xmlFile = new File(runDir, "${safeFileName}.xml")
+            xmlFile.text = """<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="${displayName}" type="ShConfigurationType">
+    <option name="SCRIPT_TEXT" value="" />
+    <option name="INDEPENDENT_SCRIPT_PATH" value="true" />
+    <option name="SCRIPT_PATH" value="${scriptPath}" />
+    <option name="SCRIPT_OPTIONS" value="" />
+    <option name="INDEPENDENT_SCRIPT_WORKING_DIRECTORY" value="true" />
+    <option name="SCRIPT_WORKING_DIRECTORY" value="\$PROJECT_DIR\$" />
+    <option name="INDEPENDENT_INTERPRETER_PATH" value="true" />
+    <option name="INTERPRETER_PATH" value="${interpreterPath}" />
+    <option name="INTERPRETER_OPTIONS" value="${interpreterOptions}" />
+    <option name="EXECUTE_IN_TERMINAL" value="true" />
+    <option name="EXECUTE_SCRIPT_FILE" value="true" />
+    <envs />
+    <method v="2" />
+  </configuration>
+</component>
+"""
+        }
+
+        println "Generated ${configs.size()} run configurations (${osFolder}) in ${runDir}"
+    }
+}
+
+tasks.register('deleteDbRunConfigurations') {
+    doLast {
+        def runDir = file("${rootDir}/.idea/runConfigurations")
+
+        if (!runDir.exists()) {
+            println "No run configurations directory found, nothing to delete."
+            return
+        }
+
+        def deletedCount = 0
+        configs.each { displayName, scriptBaseName ->
+            def safeFileName = displayName.replaceAll(/[^A-Za-z0-9]/, '_')
+            def xmlFile = new File(runDir, "${safeFileName}.xml")
+            if (xmlFile.exists()) {
+                xmlFile.delete()
+                deletedCount++
+            }
+        }
+
+        println "Deleted ${deletedCount} run configurations from ${runDir}"
+    }
+}

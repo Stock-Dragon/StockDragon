@@ -1,0 +1,21 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: stockdragon-postgres
+    environment:
+      POSTGRES_DB: stockdragon
+      POSTGRES_USER: stockdragon
+      POSTGRES_PASSWORD: stockdragon
+    ports:
+      - "5432:5432"
+    volumes:
+      - stockdragon-postgres-data:/var/lib/postgresql/data
+    networks:
+      - stockdragon-net
+
+networks:
+  stockdragon-net:
+    name: stockdragon-net
+
+volumes:
+  stockdragon-postgres-data:
