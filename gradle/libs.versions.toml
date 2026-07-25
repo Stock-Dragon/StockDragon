@@ -2,7 +2,13 @@
 springBoot = "4.1.0"
 springDependencyManagement = "1.1.7"
 springFramework = "7.0.8"
+lombok = "1.18.36"
+jakartaPersistence = "3.2.0"
 junit = "5.11.0"
+jjwt = "0.13.0"
+springDotenv = "5.1.0"
+jakartaServlet = "6.1.0"
+testcontainers = "2.0.5"
 
 [libraries]
 junit-bom = { module = "org.junit:junit-bom", version.ref = "junit" }
@@ -10,6 +16,27 @@ junit-jupiter = { module = "org.junit.jupiter:junit-jupiter" }
 spring-boot-starter-web = { module = "org.springframework.boot:spring-boot-starter-web" }
 spring-context = { module = "org.springframework:spring-context", version.ref = "springFramework" }
 spring-web = { module = "org.springframework:spring-web", version.ref = "springFramework" }
+lombok = { module = "org.projectlombok:lombok", version.ref = "lombok" }
+jakarta-persistence-api = { module = "jakarta.persistence:jakarta.persistence-api", version.ref = "jakartaPersistence"}
+spring-boot-starter-data-jpa = { module = "org.springframework.boot:spring-boot-starter-data-jpa"}
+postgresql = { module = "org.postgresql:postgresql"}
+spring-boot-starter-security = { module = "org.springframework.boot:spring-boot-starter-security" }
+spring-boot-starter-validation = { module = "org.springframework.boot:spring-boot-starter-validation" }
+jjwt-api = { module = "io.jsonwebtoken:jjwt-api", version.ref = "jjwt" }
+jjwt-impl = { module = "io.jsonwebtoken:jjwt-impl", version.ref = "jjwt" }
+jjwt-jackson = { module = "io.jsonwebtoken:jjwt-jackson", version.ref = "jjwt" }
+spring-dependency-management-plugin = { module = "io.spring.dependency-management:io.spring.dependency-management.gradle.plugin", version.ref = "springDependencyManagement" }
+spring-dotenv-bom = { module = "me.paulschwarz:spring-dotenv-bom", version.ref = "springDotenv" }
+springboot4-dotenv = { module = "me.paulschwarz:springboot4-dotenv" }
+jakarta-servlet-api = { module = "jakarta.servlet:jakarta.servlet-api", version.ref = "jakartaServlet" }
+spring-boot-starter-test = { module = "org.springframework.boot:spring-boot-starter-test" }
+spring-security-test = { module = "org.springframework.security:spring-security-test" }
+testcontainers-bom = { module = "org.testcontainers:testcontainers-bom", version.ref = "testcontainers" }
+testcontainers-junit-jupiter = { module = "org.testcontainers:testcontainers-junit-jupiter" }
+testcontainers-postgresql = { module = "org.testcontainers:testcontainers-postgresql" }
+spring-boot-testcontainers = { module = "org.springframework.boot:spring-boot-testcontainers" }
+spring-boot-starter-webmvc-test = { module = "org.springframework.boot:spring-boot-starter-webmvc-test" }
+junit-platform-launcher = { module = "org.junit.platform:junit-platform-launcher" }
 
 [plugins]
 spring-boot = { id = "org.springframework.boot", version.ref = "springBoot" }

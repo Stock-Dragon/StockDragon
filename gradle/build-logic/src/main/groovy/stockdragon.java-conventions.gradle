@@ -1,5 +1,6 @@
 plugins {
     id 'java'
+    id 'io.spring.dependency-management'
 }
 
 java {
@@ -12,13 +13,28 @@ repositories {
     mavenCentral()
 }
 
-def libs = extensions.getByType(VersionCatalogsExtension).named('libs')
+def libsCatalog = extensions.getByType(VersionCatalogsExtension).named('libs')
+
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.boot:spring-boot-dependencies:${libsCatalog.findVersion('springBoot').get()}"
+    }
+}
 
 dependencies {
-    implementation(libs.findLibrary('spring-context').get())
+    implementation(libsCatalog.findLibrary('spring-context').get())
 
-    testImplementation(platform(libs.findLibrary('junit-bom').get()))
-    testImplementation(libs.findLibrary('junit-jupiter').get())
+    compileOnly(libsCatalog.findLibrary('lombok').get())
+    annotationProcessor(libsCatalog.findLibrary('lombok').get())
+
+    testCompileOnly(libsCatalog.findLibrary('lombok').get())
+    testAnnotationProcessor(libsCatalog.findLibrary('lombok').get())
+
+    testImplementation(platform(libsCatalog.findLibrary('junit-bom').get()))
+    testImplementation(libsCatalog.findLibrary('junit-jupiter').get())
+    testRuntimeOnly(libsCatalog.findLibrary('junit-platform-launcher').get())
+
+    testImplementation(libsCatalog.findLibrary('spring-boot-starter-test').get())
 }
 
 tasks.withType(Test) {

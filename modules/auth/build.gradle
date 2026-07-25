@@ -1,3 +1,28 @@
 plugins {
     id 'stockdragon.java-conventions'
 }
+
+dependencies {
+    implementation 'com.stockdragon.libraries:jpa-commons:1.0'
+
+    implementation libs.spring.boot.starter.data.jpa
+    implementation libs.spring.boot.starter.security
+    implementation libs.spring.boot.starter.validation
+    implementation libs.spring.web
+
+    implementation libs.jakarta.servlet.api
+
+    implementation libs.jjwt.api
+    runtimeOnly libs.jjwt.impl
+    runtimeOnly libs.jjwt.jackson
+
+    testImplementation libs.spring.security.test
+    testImplementation libs.spring.boot.testcontainers
+    testImplementation libs.spring.boot.starter.webmvc.test
+
+    testImplementation platform(libs.testcontainers.bom)
+    testImplementation libs.testcontainers.junit.jupiter
+    testImplementation libs.testcontainers.postgresql
+
+    runtimeOnly libs.postgresql
+}
