@@ -2,6 +2,7 @@
 springBoot = "4.1.0"
 springDependencyManagement = "1.1.7"
 springFramework = "7.0.8"
+springAi = "2.0.1"
 lombok = "1.18.36"
 jakartaPersistence = "3.2.0"
 junit = "5.11.0"
@@ -16,10 +17,14 @@ junit-jupiter = { module = "org.junit.jupiter:junit-jupiter" }
 spring-boot-starter-web = { module = "org.springframework.boot:spring-boot-starter-web" }
 spring-context = { module = "org.springframework:spring-context", version.ref = "springFramework" }
 spring-web = { module = "org.springframework:spring-web", version.ref = "springFramework" }
+spring-ai-bom = { module = "org.springframework.ai:spring-ai-bom", version.ref = "springAi" }
+spring-ai-starter-model-openai = { module = "org.springframework.ai:spring-ai-starter-model-openai" }
+spring-ai-starter-model-anthropic = { module = "org.springframework.ai:spring-ai-starter-model-anthropic" }
+spring-ai-starter-model-google-genai = { module = "org.springframework.ai:spring-ai-starter-model-google-genai" }
 lombok = { module = "org.projectlombok:lombok", version.ref = "lombok" }
-jakarta-persistence-api = { module = "jakarta.persistence:jakarta.persistence-api", version.ref = "jakartaPersistence"}
-spring-boot-starter-data-jpa = { module = "org.springframework.boot:spring-boot-starter-data-jpa"}
-postgresql = { module = "org.postgresql:postgresql"}
+jakarta-persistence-api = { module = "jakarta.persistence:jakarta.persistence-api", version.ref = "jakartaPersistence" }
+spring-boot-starter-data-jpa = { module = "org.springframework.boot:spring-boot-starter-data-jpa" }
+postgresql = { module = "org.postgresql:postgresql" }
 spring-boot-starter-security = { module = "org.springframework.boot:spring-boot-starter-security" }
 spring-boot-starter-validation = { module = "org.springframework.boot:spring-boot-starter-validation" }
 jjwt-api = { module = "io.jsonwebtoken:jjwt-api", version.ref = "jjwt" }
