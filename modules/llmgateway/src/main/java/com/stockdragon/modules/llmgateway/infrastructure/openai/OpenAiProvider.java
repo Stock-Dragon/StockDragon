@@ -6,6 +6,7 @@ import com.stockdragon.modules.llmgateway.api.model.LlmResponse;
 import com.stockdragon.modules.llmgateway.api.model.LlmUsage;
 import com.stockdragon.modules.llmgateway.domain.LlmProvider;
 import com.stockdragon.modules.llmgateway.domain.LlmProviderType;
+import lombok.RequiredArgsConstructor;
 import org.springframework.ai.chat.messages.*;
 import org.springframework.ai.chat.model.ChatResponse;
 import org.springframework.ai.chat.prompt.ChatOptions;
@@ -16,13 +17,10 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
+@RequiredArgsConstructor
 public class OpenAiProvider implements LlmProvider {
 
     private final OpenAiChatModel chatModel;
-
-    public OpenAiProvider(OpenAiChatModel chatModel) {
-        this.chatModel = chatModel;
-    }
 
     @Override
     public LlmResponse chat(LlmRequest request) {
@@ -50,9 +48,9 @@ public class OpenAiProvider implements LlmProvider {
 
         var metadata = response.getMetadata();
 
-        Integer promptTokens = metadata.getUsage() != null
+        Integer promptTokens = Math.toIntExact(metadata.getUsage() != null
                 ? metadata.getUsage().getPromptTokens()
-                : null;
+                : null);
 
         Integer completionTokens = metadata.getUsage() != null
                 ? metadata.getUsage().getCompletionTokens()

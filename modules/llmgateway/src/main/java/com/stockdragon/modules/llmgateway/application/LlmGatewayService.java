@@ -6,31 +6,20 @@ import com.stockdragon.modules.llmgateway.api.model.LlmResponse;
 import com.stockdragon.modules.llmgateway.domain.LlmProvider;
 import com.stockdragon.modules.llmgateway.persistence.LlmInteractionEntity;
 import com.stockdragon.modules.llmgateway.persistence.LlmInteractionRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Map;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import static com.stockdragon.modules.llmgateway.exceptions.ExceptionConstants.UNSUPPORTED_LLM_PROVIDER_MESSAGE;
+
 @Service
+@RequiredArgsConstructor
 public class LlmGatewayService implements LlmGateway {
 
     private final Map<?, LlmProvider> providers;
     private final LlmInteractionRepository interactionRepository;
-
-    public LlmGatewayService(
-            List<LlmProvider> providers,
-            LlmInteractionRepository interactionRepository
-    ) {
-        this.providers = providers.stream()
-                .collect(Collectors.toMap(
-                        LlmProvider::getProviderType,
-                        Function.identity()
-                ));
-
-        this.interactionRepository = interactionRepository;
-    }
 
     @Override
     public LlmResponse chat(LlmRequest request) {
@@ -38,8 +27,8 @@ public class LlmGatewayService implements LlmGateway {
         LlmProvider provider = providers.get(request.provider());
 
         if (provider == null) {
-            throw new IllegalArgumentException(
-                    "Unsupported LLM provider: " + request.provider()
+            throw new UnsupportedOperationException(
+                    String.format(UNSUPPORTED_LLM_PROVIDER_MESSAGE, request.provider())
             );
         }
 
@@ -50,10 +39,7 @@ public class LlmGatewayService implements LlmGateway {
         return response;
     }
 
-    private void saveInteraction(
-            LlmRequest request,
-            LlmResponse response
-    ) {
+    private void saveInteraction(LlmRequest request, LlmResponse response) {
 
         LlmInteractionEntity entity = new LlmInteractionEntity(
                 request.provider(),
