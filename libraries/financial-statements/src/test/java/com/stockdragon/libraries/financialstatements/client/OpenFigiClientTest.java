@@ -61,10 +61,10 @@ class OpenFigiClientTest {
         var candidates = client.findByIsin(APPLE_ISIN);
 
         assertThat(candidates).hasSize(2);
-        assertThat(candidates.get(0).figi()).isEqualTo("BBG000B9XRY4");
-        assertThat(candidates.get(0).ticker()).isEqualTo("AAPL");
-        assertThat(candidates.get(0).exchCode()).isEqualTo("US");
-        assertThat(candidates.get(0).securityType()).isEqualTo("Common Stock");
+        assertThat(candidates.getFirst().figi()).isEqualTo("BBG000B9XRY4");
+        assertThat(candidates.getFirst().ticker()).isEqualTo("AAPL");
+        assertThat(candidates.getFirst().exchCode()).isEqualTo("US");
+        assertThat(candidates.getFirst().securityType()).isEqualTo("Common Stock");
         assertThat(candidates.get(1).exchCode()).isEqualTo("UW");
     }
 

@@ -8,8 +8,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.time.Instant;
-
 @Entity
 @Table(name = "fs_raw_payload")
 @Getter

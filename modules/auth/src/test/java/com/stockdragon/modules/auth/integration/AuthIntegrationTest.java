@@ -41,9 +41,6 @@ class AuthIntegrationTest {
     @Autowired
     private MockMvc mockMvc;
 
-    @Autowired
-    private UserRepository userRepository;
-
     @Test
     void registerThenLoginReturnsValidToken() throws Exception {
         mockMvc.perform(post("/api/v1/auth/register")

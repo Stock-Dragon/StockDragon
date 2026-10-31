@@ -1,6 +1,5 @@
 package com.stockdragon.libraries.financialstatements.config;
 
-import aQute.bnd.annotation.jpms.Open;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

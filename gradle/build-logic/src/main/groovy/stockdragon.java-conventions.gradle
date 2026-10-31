@@ -37,7 +37,7 @@ dependencies {
     testImplementation libs.spring.boot.starter.test
 }
 
-tasks.withType(Test) {
+tasks.withType(Test).configureEach {
     useJUnitPlatform()
     testLogging {
         events "passed", "skipped", "failed"

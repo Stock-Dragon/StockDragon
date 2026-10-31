@@ -3,7 +3,6 @@ package com.stockdragon.libraries.financialstatements.client;
 import com.stockdragon.libraries.financialstatements.model.dto.OpenFigiInstrument;
 import com.stockdragon.libraries.financialstatements.model.dto.OpenFigiMappingResult;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
