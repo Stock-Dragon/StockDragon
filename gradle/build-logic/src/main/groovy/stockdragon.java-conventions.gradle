@@ -22,19 +22,19 @@ dependencyManagement {
 }
 
 dependencies {
-    implementation(libsCatalog.findLibrary('spring-context').get())
+    implementation libs.spring.context
 
-    compileOnly(libsCatalog.findLibrary('lombok').get())
-    annotationProcessor(libsCatalog.findLibrary('lombok').get())
+    compileOnly libs.lombok
+    annotationProcessor libs.lombok
 
-    testCompileOnly(libsCatalog.findLibrary('lombok').get())
-    testAnnotationProcessor(libsCatalog.findLibrary('lombok').get())
+    testCompileOnly libs.lombok
+    testAnnotationProcessor libs.lombok
 
-    testImplementation(platform(libsCatalog.findLibrary('junit-bom').get()))
-    testImplementation(libsCatalog.findLibrary('junit-jupiter').get())
-    testRuntimeOnly(libsCatalog.findLibrary('junit-platform-launcher').get())
+    testImplementation platform(libs.junit.bom)
+    testImplementation libs.junit.jupiter
+    testRuntimeOnly libs.junit.platform.launcher
 
-    testImplementation(libsCatalog.findLibrary('spring-boot-starter-test').get())
+    testImplementation libs.spring.boot.starter.test
 }
 
 tasks.withType(Test) {

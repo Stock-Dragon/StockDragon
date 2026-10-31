@@ -14,4 +14,6 @@ dependencies {
     implementation project(':modules:analysis-technical')
     implementation project(':modules:analysis-fundamental')
     implementation project(':modules:analysis-sentiment')
+
+    implementation 'com.stockdragon.libraries:financial-statements:1.0'
 }
