@@ -4,7 +4,7 @@ plugins {
 }
 
 dependencies {
-    implementation 'com.stockdragon.libraries:jpa-commons:1.0'
+    implementation project(':jpa-commons')
 
     implementation libs.spring.boot.starter.data.jpa
     implementation libs.spring.boot.starter.json
