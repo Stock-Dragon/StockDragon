@@ -10,6 +10,8 @@ dependencies {
     implementation libs.spring.boot.starter.json
     implementation libs.spring.boot.starter.validation
     implementation libs.spring.web
+    implementation libs.jackson.dataformat.yaml
+    implementation libs.jackson.datatype.jsr310
 
     testImplementation libs.spring.boot.testcontainers
 

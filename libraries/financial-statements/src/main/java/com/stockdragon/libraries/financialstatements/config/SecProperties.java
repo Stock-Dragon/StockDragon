@@ -6,4 +6,4 @@ import org.springframework.validation.annotation.Validated;
 
 @Validated
 @ConfigurationProperties(prefix = "financial-statements.sec")
-public record SecProperties(@NotBlank String baseUrl, @NotBlank String userAgent) {}
+public record SecProperties(@NotBlank String baseUrl, @NotBlank String dataBaseUrl, @NotBlank String userAgent) {}

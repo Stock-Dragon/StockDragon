@@ -29,6 +29,9 @@ public class FinancialStatementsRepositoryIntegrationTest {
     static void props(DynamicPropertyRegistry registry) {
         registry.add("spring.jpa.hibernate.ddl-auto", () -> "create-drop");
         registry.add("financial-statements.openfigi.base-url", () -> "http://localhost");
+        registry.add("financial-statements.sec.base-url", () -> "http://localhost");
+        registry.add("financial-statements.sec.data-base-url", () -> "http://localhost");
+        registry.add("financial-statements.sec.user-agent", () -> "Test Agent test@test.com");
     }
 
     @Autowired

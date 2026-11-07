@@ -9,8 +9,7 @@ import org.junit.jupiter.api.Test;
 import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 public class TickerCikLookupServiceTest {
 
@@ -43,5 +42,13 @@ public class TickerCikLookupServiceTest {
     @Test
     void returnsEmptyForUnknownTicker() {
         assertThat(lookup.findCik("PSZKF")).isEmpty();
+    }
+
+    @Test
+    void fetchesIndexOnlyOnce() {
+        lookup.findCik("AAPL");
+        lookup.findCik("BRK.B");
+        lookup.findCik("PSZKF");
+        verify(client, times(1)).fetchAll();
     }
 }

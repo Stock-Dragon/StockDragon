@@ -27,7 +27,7 @@ public class RawPayload extends BaseEntity {
     @Column(name = "http_status", nullable = false)
     private int httpStatus;
 
-    @Column(name = "content_hash", nullable = false, length = 64)
+    @Column(name = "content_hash", nullable = false, length = 64, columnDefinition = "VARCHAR(64)")
     private String contentHash;
 
     @Column(nullable = false, columnDefinition = "TEXT")
