@@ -1,0 +1,184 @@
+/* ==========================================================================
+   Stock Dragon — Tailwind entry point.
+   1. @theme    : design tokens (palette, fonts, radii, shadows, animations)
+   2. @layer base : element defaults
+   3. @utility  : reusable looks that are too complex for plain utility classes
+   Everything else is styled with Tailwind classes directly in the components.
+   ========================================================================== */
+@import 'tailwindcss';
+
+@theme {
+  /* Surfaces — Deep Black */
+  --color-void: #030308;
+  --color-obsidian: #080812;
+  --color-panel: #10101e;
+  --color-surface: #19192c;
+
+  /* Neons */
+  --color-purple: #b026ff;
+  --color-violet: #7b2cff;
+  --color-blue: #2979ff;
+  --color-cyan: #00efff;
+
+  /* Text */
+  --color-ice: #f2f6ff;
+  --color-silver: #a4adc7;
+
+  /* Semantic (market data / status) */
+  --color-positive: #00ff9c;
+  --color-negative: #ff3366;
+  --color-warning: #ffb938;
+
+  /* Lines */
+  --color-line: rgb(164 173 199 / 12%);
+  --color-line-strong: rgb(164 173 199 / 22%);
+
+  /* Typography */
+  --font-sans: 'Inter Variable', system-ui, sans-serif;
+  --font-display: 'Orbitron Variable', 'Inter Variable', sans-serif;
+
+  /* Shape */
+  --radius-control: 14px;
+  --radius-card: 20px;
+
+  /* Glows */
+  --shadow-glow-purple: 0 0 24px rgb(176 38 255 / 45%);
+  --shadow-glow-cyan: 0 0 24px rgb(0 239 255 / 40%);
+  --drop-shadow-neon: 0 0 14px rgb(123 44 255 / 55%);
+  --drop-shadow-neon-lg: 0 0 50px rgb(123 44 255 / 55%);
+
+  /* Motion */
+  --ease-snappy: cubic-bezier(0.22, 1, 0.36, 1);
+  --animate-float: float 7s ease-in-out infinite;
+  --animate-drift: drift 22s ease-in-out infinite alternate;
+
+  /* Breakpoint where the sidebar becomes permanent (`desktop:` variant) */
+  --breakpoint-desktop: 900px;
+
+  @keyframes float {
+    50% {
+      transform: translateY(-14px);
+    }
+  }
+
+  @keyframes drift {
+    to {
+      transform: translate3d(60px, 40px, 0) scale(1.12);
+    }
+  }
+}
+
+@layer base {
+  body {
+    background: var(--color-void);
+    color: var(--color-ice);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    letter-spacing: 0.04em;
+  }
+
+  a {
+    color: var(--color-cyan);
+  }
+
+  ::selection {
+    background: rgb(176 38 255 / 45%);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-cyan);
+    outline-offset: 2px;
+  }
+
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-violet) transparent;
+  }
+
+  html {
+    color-scheme: dark;
+  }
+}
+
+/* Brand gradients */
+@utility bg-gradient-energy {
+  background-image: linear-gradient(90deg, #b026ff 0%, #7b2cff 35%, #2979ff 70%, #00efff 100%);
+}
+
+@utility bg-gradient-pulse {
+  background-image: linear-gradient(90deg, #b026ff, #2979ff);
+}
+
+@utility text-gradient-energy {
+  background-image: linear-gradient(90deg, #b026ff 0%, #7b2cff 35%, #2979ff 70%, #00efff 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+@utility text-gradient-ice {
+  background-image: linear-gradient(90deg, #2979ff, #00efff);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+/* Small uppercase caption (form labels, metric labels, section captions) */
+@utility label-caps {
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: var(--color-silver);
+}
+
+/* Dark glass surface (cards, auth panel) */
+@utility glass {
+  background: linear-gradient(160deg, rgb(25 25 44 / 72%), rgb(8 8 18 / 90%));
+  backdrop-filter: blur(16px);
+}
+
+/* 1px brand-gradient ring drawn around an element (needs `relative`) */
+@utility gradient-border {
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    padding: 1px;
+    border-radius: inherit;
+    background-image: linear-gradient(90deg, #b026ff 0%, #7b2cff 35%, #2979ff 70%, #00efff 100%);
+    opacity: 0.7;
+    pointer-events: none;
+    mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    mask-composite: exclude;
+  }
+}
+
+/* Faint neon grid for the page backdrop */
+@utility bg-neon-grid {
+  background-image:
+    linear-gradient(rgb(123 44 255 / 9%) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(123 44 255 / 9%) 1px, transparent 1px);
+  background-size: 56px 56px;
+  mask-image: radial-gradient(ellipse at 50% 30%, #000 0%, transparent 75%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
+}

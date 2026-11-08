@@ -1,32 +1,27 @@
-# React + TypeScript + Vite
+# Stock Dragon — frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+React + Vite + TypeScript. Run: `npm install && npm run dev` (or the "Frontend - Start Dev Server" IntelliJ configuration).
 
-Currently, two official plugins are available:
+## Structure (`src/`)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+| Path | Purpose |
+|---|---|
+| `pages/` | One folder per screen (login, register, main page, wallet, instruments, administration). Page-specific parts live next to the page. |
+| `components/common/` | Reusable, domain-agnostic building blocks (Button, TextField, Card, ...). |
+| `components/layout/` | App shells: `AppLayout` (sidebar) and `AuthLayout`. |
+| `components/auth/` | Feature components shared by login/register. |
+| `router/` | Route table (`index.tsx`), URL constants (`paths.ts`), sidebar tabs (`navigation.ts`). |
+| `assets/` | Images (logo). |
+| `styles/index.css` | Tailwind entry: design tokens (`@theme`), element defaults, and the few custom utilities (`glass`, `label-caps`, gradients). |
+| `utils/` | Small framework-agnostic helpers (`cn` for joining class names). |
 
-## React Compiler
+Import with the `@/` alias, e.g. `import { Button } from '@/components/common/Button'`.
+Not created yet (added when needed): `services/` (API calls).
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the Oxlint configuration
-
-If you are developing a production application, we recommend enabling type-aware lint rules by installing `oxlint-tsgolint` and editing `.oxlintrc.json`:
-
-```json
-{
-  "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["react", "typescript", "oxc"],
-  "options": {
-    "typeAware": true
-  },
-  "rules": {
-    "react/rules-of-hooks": "error",
-    "react/only-export-components": ["warn", { "allowConstantExport": true }]
-  }
-}
-```
-
-See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
+## Styling rules (Tailwind CSS v4)
+- Style with Tailwind classes directly in components; no per-component CSS files.
+- Palette, fonts, radii, glows and animations live in `@theme` in `styles/index.css` and become classes (`bg-purple`, `text-cyan`, `rounded-card`, `animate-float`, `shadow-glow-cyan`).
+- Don't hardcode brand colors — use the theme names.
+- A complex look used in 2+ places becomes a `@utility` in `styles/index.css`.
+- Class names must be written in full (never built from string pieces) so Tailwind can detect them.
+- Responsive: mobile-first; the sidebar becomes permanent at the custom `desktop:` breakpoint (900px).
