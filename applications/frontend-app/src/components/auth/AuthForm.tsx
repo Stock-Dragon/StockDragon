@@ -15,7 +15,8 @@ interface AuthFormProps {
   submitLabel: string
   /** Minimal password length enforced on the client. */
   passwordMinLength: number
-  onSubmit: (values: AuthFormValues) => void
+  /** Should reject with an Error (message is shown to the user) when the request fails. */
+  onSubmit: (values: AuthFormValues) => Promise<void>
   /** Link to the opposite screen, rendered under the form. */
   footer: ReactNode
 }
@@ -33,9 +34,11 @@ export function AuthForm({
 }: AuthFormProps) {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [submitting, setSubmitting] = useState(false)
+  const [formError, setFormError] = useState<string | null>(null)
   const [errors, setErrors] = useState<Partial<Record<keyof AuthFormValues, string>>>({})
 
-  const handleSubmit = (event: FormEvent) => {
+  const handleSubmit = async (event: FormEvent) => {
     event.preventDefault()
 
     const next: typeof errors = {}
@@ -48,7 +51,17 @@ export function AuthForm({
     }
     setErrors(next)
 
-    if (Object.keys(next).length === 0) onSubmit({ email: email.trim(), password })
+    if (Object.keys(next).length > 0) return
+
+    setFormError(null)
+    setSubmitting(true)
+    try {
+      await onSubmit({ email: email.trim(), password })
+    } catch (error) {
+      setFormError(error instanceof Error ? error.message : 'Something went wrong. Please try again.')
+    } finally {
+      setSubmitting(false)
+    }
   }
 
   const SubmitIcon = mode === 'login' ? LogIn : UserPlus
@@ -83,9 +96,18 @@ export function AuthForm({
         error={errors.password}
       />
 
-      <Button type="submit" fullWidth>
+      {formError && (
+        <p
+          role="alert"
+          className="rounded-control border border-negative/45 bg-negative/10 px-3.5 py-2.5 text-[0.9rem] text-negative"
+        >
+          {formError}
+        </p>
+      )}
+
+      <Button type="submit" fullWidth disabled={submitting}>
         <SubmitIcon size={17} />
-        {submitLabel}
+        {submitting ? 'Please wait…' : submitLabel}
       </Button>
 
       <p className="text-center text-[0.9rem] text-silver [&_a]:ml-1.5 [&_a]:font-semibold [&_a]:transition-[text-shadow] [&_a:hover]:[text-shadow:0_0_12px_var(--color-cyan)]">{footer}</p>

@@ -1,8 +1,8 @@
-import { NavLink, useNavigate } from 'react-router'
+import { NavLink } from 'react-router'
 import { LogOut, X } from 'lucide-react'
+import { useAuth } from '@/components/auth/useAuth'
 import { Logo } from '@/components/common/Logo'
 import { navItems } from '@/router/navigation'
-import { paths } from '@/router/paths'
 import { cn } from '@/utils/cn'
 
 interface SidebarProps {
@@ -11,7 +11,7 @@ interface SidebarProps {
 }
 
 export function Sidebar({ open, onClose }: SidebarProps) {
-  const navigate = useNavigate()
+  const { email, logout } = useAuth()
 
   return (
     <>
@@ -87,17 +87,16 @@ export function Sidebar({ open, onClose }: SidebarProps) {
         <div className="flex flex-col gap-3 border-t border-line pt-4">
           <div className="flex items-center gap-3 px-2">
             <span className="grid size-9.5 flex-none place-items-center rounded-full bg-gradient-pulse font-display text-xs font-bold shadow-glow-purple">
-              SD
+              {(email ?? '?').slice(0, 2).toUpperCase()}
             </span>
-            <div>
-              <p className="max-w-37.5 truncate text-[0.82rem]">demo@stockdragon.io</p>
-              <p className="text-[0.72rem] text-silver">Analyst</p>
-            </div>
+            <p className="max-w-37.5 truncate text-[0.82rem]" title={email ?? undefined}>
+              {email}
+            </p>
           </div>
           <button
             type="button"
             className="flex cursor-pointer items-center gap-2.5 rounded-control border border-line px-3.5 py-2.5 text-silver transition duration-300 hover:border-negative/55 hover:text-negative hover:shadow-[0_0_20px_rgb(255_51_102/18%)]"
-            onClick={() => navigate(paths.login)}
+            onClick={logout}
           >
             <LogOut size={17} />
             Log out
