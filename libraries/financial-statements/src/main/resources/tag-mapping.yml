@@ -1,0 +1,55 @@
+us-gaap:
+  REVENUE:
+    - RevenueFromContractWithCustomerExcludingAssessedTax
+    - Revenues
+    - SalesRevenueNet
+  OPERATING_INCOME:
+    - OperatingIncomeLoss
+  NET_INCOME:
+    - NetIncomeLoss
+  TOTAL_ASSETS:
+    - Assets
+  TOTAL_LIABILITIES:
+    - Liabilities
+  TOTAL_LIABILITIES_COMPONENTS:
+    - LiabilitiesCurrent
+    - LiabilitiesNoncurrent
+  EQUITY:
+    - StockholdersEquity
+  CFO:
+    - NetCashProvidedByUsedInOperatingActivities
+  CAPEX:
+    - PaymentsToAcquirePropertyPlantAndEquipment
+  CASH:
+    - CashAndCashEquivalents
+    - CashAndCashEquivalentsAtCarryingValue
+    - Cash
+  DEPRECIATION:
+    - DepreciationDepletionAndAmortization
+
+ifrs-full:
+  REVENUE:
+    - Revenue
+    - RevenueFromContractsWithCustomers
+  OPERATING_INCOME:
+    - ProfitLossFromOperatingActivities
+  NET_INCOME:
+    - ProfitLossAttributableToOwnersOfParent
+    - ProfitLoss
+  TOTAL_ASSETS:
+    - Assets
+  TOTAL_LIABILITIES:
+    - Liabilities
+  EQUITY:
+    - EquityAttributableToOwnersOfParent
+    - Equity
+  CFO:
+    - CashFlowsFromUsedInOperatingActivities
+  CAPEX:
+    - PurchaseOfPropertyPlantAndEquipmentClassifiedAsInvestingActivities
+  CASH:
+    - CashAndCashEquivalentsAtCarryingValue
+    - CashAndCashEquivalents
+    - Cash
+  DEPRECIATION:
+    - DepreciationAndAmortisationExpense
