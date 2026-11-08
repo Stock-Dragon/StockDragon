@@ -4,24 +4,30 @@ def scriptExt = isWindows ? '.ps1' : '.sh'
 def interpreterPath = isWindows ? 'powershell.exe' : '/bin/bash'
 def interpreterOptions = isWindows ? '-ExecutionPolicy Bypass -File' : ''
 
-def configs = [
+def databaseConfigs = [
         'Database - Start DB'            : 'start-db',
         'Database - Start And Patch DB'  : 'start-and-patch-db',
         'Database - Reset DB'            : 'reset-db',
         'Database - Delete DB'           : 'delete-db',
 ]
 
-tasks.register('generateDbRunConfigurations') {
-    doLast {
-        def runDir = file("${rootDir}/.idea/runConfigurations")
-        runDir.mkdirs()
+// display name -> npm script from package.json
+def frontendConfigs = [
+        'Frontend - Start Dev Server'    : 'dev',
+]
+def frontendPackageJson = '$PROJECT_DIR$/applications/frontend-app/package.json'
 
-        configs.each { displayName, scriptBaseName ->
-            def safeFileName = displayName.replaceAll(/[^A-Za-z0-9]/, '_')
-            def scriptPath = "\$PROJECT_DIR\$/tools/local/scripts/${osFolder}/${scriptBaseName}${scriptExt}"
+def runConfigurationsDir = { file("${rootDir}/.idea/runConfigurations") }
+def safeName = { String displayName -> displayName.replaceAll(/[^A-Za-z0-9]/, '_') }
 
-            def xmlFile = new File(runDir, "${safeFileName}.xml")
-            xmlFile.text = """<component name="ProjectRunConfigurationManager">
+def writeRunConfigurations = { Map<String, String> toGenerate ->
+    def runDir = runConfigurationsDir()
+    runDir.mkdirs()
+
+    toGenerate.each { displayName, scriptBaseName ->
+        def scriptPath = "\$PROJECT_DIR\$/tools/local/scripts/${osFolder}/${scriptBaseName}${scriptExt}"
+
+        new File(runDir, "${safeName(displayName)}.xml").text = """<component name="ProjectRunConfigurationManager">
   <configuration default="false" name="${displayName}" type="ShConfigurationType">
     <option name="SCRIPT_TEXT" value="" />
     <option name="INDEPENDENT_SCRIPT_PATH" value="true" />
@@ -39,31 +45,66 @@ tasks.register('generateDbRunConfigurations') {
   </configuration>
 </component>
 """
-        }
-
-        println "Generated ${configs.size()} run configurations (${osFolder}) in ${runDir}"
     }
+
+    println "Generated ${toGenerate.size()} run configurations (${osFolder}) in ${runDir}"
+}
+
+def writeNpmRunConfigurations = { Map<String, String> toGenerate ->
+    def runDir = runConfigurationsDir()
+    runDir.mkdirs()
+
+    toGenerate.each { displayName, npmScript ->
+        new File(runDir, "${safeName(displayName)}.xml").text = """<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="${displayName}" type="js.build_tools.npm">
+    <package-json value="${frontendPackageJson}" />
+    <command value="run" />
+    <scripts>
+      <script value="${npmScript}" />
+    </scripts>
+    <node-interpreter value="project" />
+    <envs />
+    <method v="2" />
+  </configuration>
+</component>
+"""
+    }
+
+    println "Generated ${toGenerate.size()} npm run configurations in ${runDir}"
+}
+
+def deleteRunConfigurations = { Map<String, String> toDelete ->
+    def runDir = runConfigurationsDir()
+
+    if (!runDir.exists()) {
+        println "No run configurations directory found, nothing to delete."
+        return
+    }
+
+    def deletedCount = 0
+    toDelete.each { displayName, scriptBaseName ->
+        def xmlFile = new File(runDir, "${safeName(displayName)}.xml")
+        if (xmlFile.exists()) {
+            xmlFile.delete()
+            deletedCount++
+        }
+    }
+
+    println "Deleted ${deletedCount} run configurations from ${runDir}"
+}
+
+tasks.register('generateDbRunConfigurations') {
+    doLast { writeRunConfigurations(databaseConfigs) }
 }
 
 tasks.register('deleteDbRunConfigurations') {
-    doLast {
-        def runDir = file("${rootDir}/.idea/runConfigurations")
+    doLast { deleteRunConfigurations(databaseConfigs) }
+}
 
-        if (!runDir.exists()) {
-            println "No run configurations directory found, nothing to delete."
-            return
-        }
+tasks.register('generateFrontendRunConfigurations') {
+    doLast { writeNpmRunConfigurations(frontendConfigs) }
+}
 
-        def deletedCount = 0
-        configs.each { displayName, scriptBaseName ->
-            def safeFileName = displayName.replaceAll(/[^A-Za-z0-9]/, '_')
-            def xmlFile = new File(runDir, "${safeFileName}.xml")
-            if (xmlFile.exists()) {
-                xmlFile.delete()
-                deletedCount++
-            }
-        }
-
-        println "Deleted ${deletedCount} run configurations from ${runDir}"
-    }
+tasks.register('deleteFrontendRunConfigurations') {
+    doLast { deleteRunConfigurations(frontendConfigs) }
 }
